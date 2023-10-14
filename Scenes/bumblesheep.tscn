@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://c85h5xrnpac60"]
+
+[ext_resource type="Texture2D" uid="uid://cj3pclee1gtpc" path="res://Assets/Textures/Bumblesheep.png" id="1_nwmao"]
+
+[node name="Bumblesheep" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_nwmao")
