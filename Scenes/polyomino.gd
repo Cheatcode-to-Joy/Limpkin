@@ -26,6 +26,7 @@ func makeValidPolyomino(width, height):
 			matrix[x][y] = 0
 	matrix[0][0] = 1
 	var activeFilled = {[0,0]: true}
+	var filled: float = 1
 	while !(activeFilled.keys() == []):
 		var candidates = {}
 		for field in activeFilled.keys():
@@ -35,8 +36,9 @@ func makeValidPolyomino(width, height):
 				candidates[[field[0],field[1]+1]] = true
 			activeFilled.erase(field)
 		for candidate in candidates:
-			if ((randi() % 2) == 1):
+			if (randf() > ((5*filled)/(3*width*height))):
 				matrix[candidate[0]][candidate[1]] = 1
+				filled += 1
 				activeFilled[candidate] = true
 				candidates.erase(candidate)
 	return matrix
