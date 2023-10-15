@@ -14,10 +14,14 @@ func _process(delta):
 
 
 func init(width=4, height=4, inputMatrix=[]):
-	pnWidth = width
-	pnHeight = height
 	if inputMatrix == []:
 		inputMatrix = makeValidPolyomino(width, height)
+	for row in range(height):
+		for column in range(width):
+			if (inputMatrix[row][column] == 1):
+				pnWidth = max(pnWidth, column)
+				pnHeight = max(pnHeight, row)
+	print(inputMatrix)
 	return inputMatrix
 	
 	

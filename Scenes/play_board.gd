@@ -7,6 +7,7 @@ var bbee = load("res://Scenes/bumblesheep.tscn")
 var poly = load("res://Scenes/polyomino.tscn")
 var screenWidth
 var screenHeight
+var looseTiles = {}
 
 
 # Called when the node enters the scene tree for the first time.
@@ -19,7 +20,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	if Input.is_action_just_pressed("Reset"):
+		resetLoose()
 
 
 func makeBoard():
@@ -37,12 +39,10 @@ func makeBoard():
 func makeSideboard():
 	var looseTileX = tileHeight
 	var looseTileY = tileHeight
-	var hadTiles = true
-	var lastTileRowNumber = 0
 	for polyomino in range(3):
 		var polyominoInstance = makePolyomino(looseTileX, looseTileY)
-		looseTileY += (polyominoInstance.pnHeight+1)*tileHeight
-		lastTileRowNumber = 0
+		looseTiles[polyominoInstance] = true
+		looseTileY += (polyominoInstance.pnHeight+2)*tileHeight
 
 
 func makePolyomino(looseTileX, looseTileY):
@@ -57,3 +57,11 @@ func makePolyomino(looseTileX, looseTileY):
 				polyominoInstance.add_child(tileInstance)
 	add_child(polyominoInstance)
 	return polyominoInstance
+
+
+func resetLoose():
+	print("pressing")
+	for polyomino in looseTiles.keys():
+		looseTiles.erase(polyomino)
+		remove_child(polyomino)
+	makeSideboard()
