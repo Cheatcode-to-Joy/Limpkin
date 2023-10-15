@@ -21,7 +21,6 @@ func init(width=4, height=4, inputMatrix=[]):
 			if (inputMatrix[row][column] == 1):
 				pnWidth = max(pnWidth, column)
 				pnHeight = max(pnHeight, row)
-	print(inputMatrix)
 	return inputMatrix
 	
 	

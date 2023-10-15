@@ -60,7 +60,6 @@ func makePolyomino(looseTileX, looseTileY):
 
 
 func resetLoose():
-	print("pressing")
 	for polyomino in looseTiles.keys():
 		looseTiles.erase(polyomino)
 		remove_child(polyomino)
