@@ -1,5 +1,7 @@
 extends Node2D
 
+var pnWidth = 0
+var pnHeight = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -12,9 +14,11 @@ func _process(delta):
 
 
 func init(width=4, height=4, inputMatrix=[]):
+	pnWidth = width
+	pnHeight = height
 	if inputMatrix == []:
 		inputMatrix = makeValidPolyomino(width, height)
-		print(inputMatrix)
+	return inputMatrix
 	
 	
 func makeValidPolyomino(width, height):

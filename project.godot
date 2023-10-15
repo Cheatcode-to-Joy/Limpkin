@@ -14,3 +14,12 @@ config/name="Limpkin"
 run/main_scene="res://Scenes/play_space.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=2560
+window/size/viewport_height=1440
+window/size/mode=3
+window/size/resizable=false
+window/size/borderless=true
+window/stretch/mode="canvas_items"
