@@ -7,16 +7,13 @@ var actualHeight = 0
 func _ready():
 	pass # Replace with function body.
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
 
-
 func init(width=4, height=4, inputMatrix=[], symbolMatrix=[]):
 	return makeValidPolyomino(width, height)
-	
-	
+
 func makeValidPolyomino(width, height):
 	# Instancing dictionaries. 
 	# tileDictionary = All possible tiles within the polyomino.

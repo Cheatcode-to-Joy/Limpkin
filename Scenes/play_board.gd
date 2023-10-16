@@ -1,6 +1,5 @@
 extends Node2D
 
-
 var tileHeight = 100
 var tile = load("res://Scenes/tile_square.tscn")
 var bbee = load("res://Scenes/bumblesheep.tscn")
@@ -9,7 +8,6 @@ var screenWidth
 var screenHeight
 var looseTiles = {}
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	screenWidth = get_viewport().size.x
@@ -17,12 +15,10 @@ func _ready():
 	makeBoard()
 	makeSideboard()
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if Input.is_action_just_pressed("Reset"):
 		resetLoose()
-
 
 func makeBoard():
 	var tiles = 8
@@ -35,7 +31,6 @@ func makeBoard():
 			add_child(tileInstance)
 			tileInstance.add_child(bbeeInstance)
 
-
 func makeSideboard():
 	var looseTileX = tileHeight
 	var looseTileY = tileHeight
@@ -43,7 +38,6 @@ func makeSideboard():
 		var polyominoInstance = makePolyomino(looseTileX, looseTileY)
 		looseTiles[polyominoInstance] = true
 		looseTileY += (polyominoInstance.actualHeight+2)*tileHeight
-
 
 func makePolyomino(looseTileX, looseTileY):
 	var polyominoInstance = poly.instantiate()
@@ -56,7 +50,6 @@ func makePolyomino(looseTileX, looseTileY):
 			polyominoInstance.add_child(tileInstance)
 	add_child(polyominoInstance)
 	return polyominoInstance
-
 
 func resetLoose():
 	for polyomino in looseTiles.keys():
