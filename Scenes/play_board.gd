@@ -42,19 +42,18 @@ func makeSideboard():
 	for polyomino in range(3):
 		var polyominoInstance = makePolyomino(looseTileX, looseTileY)
 		looseTiles[polyominoInstance] = true
-		looseTileY += (polyominoInstance.pnHeight+2)*tileHeight
+		looseTileY += (polyominoInstance.actualHeight+2)*tileHeight
 
 
 func makePolyomino(looseTileX, looseTileY):
 	var polyominoInstance = poly.instantiate()
-	var matrix = polyominoInstance.init()
-	for row in range(matrix.size()):
-		for column in range(matrix[row].size()):
-			if matrix[row][column] == 1:
-				var tileInstance = tile.instantiate()
-				tileInstance.position = Vector2(looseTileX + tileHeight*column,
-												looseTileY + tileHeight*row)
-				polyominoInstance.add_child(tileInstance)
+	var polyomino = polyominoInstance.init()
+	for space in polyomino.keys():
+		if polyomino[space] == 1:
+			var tileInstance = tile.instantiate()
+			tileInstance.position = Vector2(looseTileX + tileHeight*space[0],
+											looseTileY + tileHeight*space[1])
+			polyominoInstance.add_child(tileInstance)
 	add_child(polyominoInstance)
 	return polyominoInstance
 
