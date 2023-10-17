@@ -45,3 +45,6 @@ func makeValidPolyomino(width, height):
 				tileDictionary[candidate] = -1
 			tileCandidates.erase(candidate)
 	return tileDictionary
+
+func onClick():
+	print("clicke")
