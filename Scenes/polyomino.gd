@@ -2,14 +2,18 @@ extends Node2D
 
 var actualWidth = 0
 var actualHeight = 0
+var grabbed = false
+var firstMousePosition = Vector2(0,0)
+var grabPosition = Vector2(0,0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	if grabbed:
+		self.position = get_viewport().get_mouse_position() - firstMousePosition + grabPosition
 
 func init(width=4, height=4, inputMatrix=[], symbolMatrix=[]):
 	return makeValidPolyomino(width, height)
@@ -47,4 +51,7 @@ func makeValidPolyomino(width, height):
 	return tileDictionary
 
 func onClick():
-	print("clicke")
+	firstMousePosition = Vector2(0,0) if grabbed else get_viewport().get_mouse_position()
+	if grabbed:
+		grabPosition = self.position
+	grabbed = !grabbed
