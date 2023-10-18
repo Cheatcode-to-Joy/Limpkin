@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://dgasknwy11oml"]
+[gd_scene load_steps=4 format=3 uid="uid://btdnl76g2rwe5"]
 
 [ext_resource type="Script" path="res://Scenes/tile_area.gd" id="1_kejo1"]
 [ext_resource type="Texture2D" uid="uid://cb6mkuaxl0f48" path="res://Assets/Textures/TileTexture.png" id="2_bkaol"]

@@ -1,3 +1,8 @@
-[gd_scene format=3 uid="uid://bby5t4ndouuaf"]
+[gd_scene load_steps=2 format=3 uid="uid://bby5t4ndouuaf"]
+
+[ext_resource type="Texture2D" uid="uid://cb6mkuaxl0f48" path="res://Assets/Textures/TileTexture.png" id="1_36x6a"]
 
 [node name="TileSquare" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_36x6a")

@@ -4,7 +4,6 @@ var tileHeight = 100
 var tile = load("res://Scenes/tile_square.tscn")
 var bbee = load("res://Scenes/bumblesheep.tscn")
 var poly = load("res://Scenes/polyomino.tscn")
-var movable = load("res://Scenes/movable.tscn")
 var screenWidth
 var screenHeight
 var looseTiles = {}
@@ -49,10 +48,8 @@ func makePolyomino():
 	for space in polyominoInstance.tileDictionary.keys():
 		if polyominoInstance.tileDictionary[space] == 1:
 			var tileInstance = tile.instantiate()
-			var isMovable = movable.instantiate()
-			tileInstance.position = Vector2(tileHeight*(space[0]-polyominoInstance.centerX),
-											tileHeight*(space[1]-polyominoInstance.centerY))
-			tileInstance.add_child(isMovable)
+			tileInstance.position = Vector2(tileHeight*(.5+space[0]-polyominoInstance.centerX),
+											tileHeight*(.5+space[1]-polyominoInstance.centerY))
 			polyominoInstance.add_child(tileInstance)
 	add_child(polyominoInstance)
 	return polyominoInstance

@@ -56,7 +56,7 @@ func makeValidPolyomino(width, height):
 			else:
 				tileDictionary[candidate] = -1
 			tileCandidates.erase(candidate)
-	changeProportions(temporaryWidth, temporaryHeight)
+	changeProportions(temporaryWidth+1, temporaryHeight+1)
 	return tileDictionary
 
 func rotatePolyomino(times=1):
@@ -67,9 +67,9 @@ func rotatePolyomino(times=1):
 		tileDictionary = newTileDictionary
 		var rotationPoint = get_viewport().get_mouse_position()
 		global_rotation_degrees += 90
-		changeProportions(actualHeight, actualWidth)
+		changeProportions()
 
-func changeProportions(newWidth, newHeight):
+func changeProportions(newWidth=actualWidth, newHeight=actualHeight):
 	actualWidth = newWidth
 	actualHeight = newHeight
 	centerX = actualWidth / 2
