@@ -40,7 +40,7 @@ func makeSideboard():
 		polyominoInstance.position += Vector2(tileHeight*polyominoInstance.centerX,
 											  tileHeight*polyominoInstance.centerY)
 		polyominoInstance.position += Vector2(offsetX, offsetY)
-		offsetY += (polyominoInstance.actualHeight+2)*tileHeight
+		offsetY += (polyominoInstance.actualHeight+1)*tileHeight
 
 func makePolyomino():
 	var polyominoInstance = poly.instantiate()
