@@ -1,7 +1,7 @@
 extends Node2D
 
-var actualWidth = 0
-var actualHeight = 0
+var actualWidth : float = 0
+var actualHeight : float = 0
 var centerX : float = actualWidth
 var centerY : float = actualHeight
 var grabbed = false
@@ -51,6 +51,8 @@ func makeValidPolyomino(width, height):
 			else:
 				tileDictionary[candidate] = -1
 			tileCandidates.erase(candidate)
+	centerX = actualWidth / 2
+	centerY = actualHeight / 2
 	return tileDictionary
 
 func rotatePolyomino(times=1):
