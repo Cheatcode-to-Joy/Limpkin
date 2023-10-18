@@ -13,4 +13,5 @@ texture_filter = 1
 texture = ExtResource("2_bkaol")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(5, 5)
 shape = SubResource("RectangleShape2D_fi8x8")
