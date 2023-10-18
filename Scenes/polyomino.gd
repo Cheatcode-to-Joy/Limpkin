@@ -2,9 +2,15 @@ extends Node2D
 
 var actualWidth = 0
 var actualHeight = 0
+var centerX : float = actualWidth
+var centerY : float = actualHeight
 var grabbed = false
 var firstMousePosition = Vector2(0,0)
-var grabPosition = Vector2(0,0)
+var grabPosition = self.position
+
+# tileDictionary = All possible tiles within the polyomino.
+#   -1 = confirmed empty, 0 = empty, 1 = tile, 2 = tile+symbol
+var tileDictionary = {}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -13,17 +19,14 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if grabbed:
-		self.position = get_viewport().get_mouse_position() - firstMousePosition + grabPosition
+		self.position = get_viewport().get_mouse_position()
 
 func init(width=4, height=4, inputMatrix=[], symbolMatrix=[]):
 	return makeValidPolyomino(width, height)
 
 func makeValidPolyomino(width, height):
 	# Instancing dictionaries. 
-	# tileDictionary = All possible tiles within the polyomino.
-	#   -1 = confirmed empty, 0 = empty, 1 = tile, 2 = tile+symbol
 	# tileCandidates = Current tiles to consider for ascension.
-	var tileDictionary = {}
 	var tileCandidates = {}
 	for row in range(height):
 		for column in range(width):
@@ -50,8 +53,20 @@ func makeValidPolyomino(width, height):
 			tileCandidates.erase(candidate)
 	return tileDictionary
 
-func onClick():
+func rotatePolyomino(times=1):
+	for occurence in range(times):
+		var newTileDictionary = {}
+		for tile in tileDictionary.keys():
+			newTileDictionary[[tile[1],tile[0]]] = tileDictionary[tile]
+		tileDictionary = newTileDictionary
+		var rotationPoint = get_viewport().get_mouse_position()
+		global_rotation_degrees += 90
+
+func onLeftClick():
 	firstMousePosition = Vector2(0,0) if grabbed else get_viewport().get_mouse_position()
 	if grabbed:
 		grabPosition = self.position
 	grabbed = !grabbed
+	
+func onRightClick():
+	rotatePolyomino()

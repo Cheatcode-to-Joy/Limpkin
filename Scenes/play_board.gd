@@ -33,22 +33,25 @@ func makeBoard():
 			tileInstance.add_child(bbeeInstance)
 
 func makeSideboard():
-	var looseTileX = tileHeight
-	var looseTileY = tileHeight
+	var offsetX = tileHeight
+	var offsetY = tileHeight
 	for polyomino in range(3):
-		var polyominoInstance = makePolyomino(looseTileX, looseTileY)
+		var polyominoInstance = makePolyomino()
 		looseTiles[polyominoInstance] = true
-		looseTileY += (polyominoInstance.actualHeight+2)*tileHeight
+		polyominoInstance.position += Vector2(tileHeight*polyominoInstance.centerX,
+											  tileHeight*polyominoInstance.centerY)
+		polyominoInstance.position += Vector2(offsetX, offsetY)
+		offsetY += (polyominoInstance.actualHeight+2)*tileHeight
 
-func makePolyomino(looseTileX, looseTileY):
+func makePolyomino():
 	var polyominoInstance = poly.instantiate()
-	var polyomino = polyominoInstance.init()
-	for space in polyomino.keys():
-		if polyomino[space] == 1:
+	polyominoInstance.init()
+	for space in polyominoInstance.tileDictionary.keys():
+		if polyominoInstance.tileDictionary[space] == 1:
 			var tileInstance = tile.instantiate()
 			var isMovable = movable.instantiate()
-			tileInstance.position = Vector2(looseTileX + tileHeight*space[0],
-											looseTileY + tileHeight*space[1])
+			tileInstance.position = Vector2(tileHeight*(space[0]-polyominoInstance.centerX),
+											tileHeight*(space[1]-polyominoInstance.centerY))
 			tileInstance.add_child(isMovable)
 			polyominoInstance.add_child(tileInstance)
 	add_child(polyominoInstance)
