@@ -36,6 +36,7 @@ func _process(delta):
 		for polyomino in looseTiles:
 			polyomino.changeProportions()
 		if getActivePolyomino():
+			grabPosition = getActivePolyomino().position
 			getActivePolyomino().rotatePolyomino()
 	if !grabbed == null:
 		grabbed.position = get_viewport().get_mouse_position() + grabPosition - mousePosition
