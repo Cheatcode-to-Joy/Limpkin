@@ -4,11 +4,15 @@ var actualWidth : float = 0
 var actualHeight : float = 0
 var centerX : float = actualWidth
 var centerY : float = actualHeight
+var topLeft = [0,0]
+var botRight = [0,0]
 var grabbed = false
-var firstMousePosition = Vector2(0,0)
+#var firstMousePosition = Vector2(0,0)
 var grabPosition = self.position
+var board
 
-signal changedSize(width, height)
+#signal changedSize(width,height)
+#signal changedSize(polyomino,topLeft,botRight)
 
 # tileDictionary = All possible tiles within the polyomino.
 #   -1 = confirmed empty, 0 = empty, 1 = tile, 2 = tile+symbol
@@ -16,13 +20,17 @@ var tileDictionary = {}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var shape = get_child(0).get_child(0)
-	self.changedSize.connect(shape.sizeChanged)
+#	var shape = get_child(0).get_child(0)
+#	self.changedSize.connect(shape.sizeChanged)
+	board = get_parent()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if grabbed:
-		self.position = get_viewport().get_mouse_position()
+#	if grabbed:
+#		self.position = get_viewport().get_mouse_position() + grabPosition - firstMousePosition
+#	if Input.is_action_just_pressed("Grab or Let go") and grabbed:
+#		grabbed = !grabbed
+	pass
 
 func init(width=4, height=4, inputMatrix=[], symbolMatrix=[]):
 	return makeValidPolyomino(width, height)
@@ -67,20 +75,24 @@ func rotatePolyomino(times=1):
 		tileDictionary = newTileDictionary
 		var rotationPoint = get_viewport().get_mouse_position()
 		global_rotation_degrees += 90
-		changeProportions()
+		changeProportions(actualHeight,actualWidth)
 
 func changeProportions(newWidth=actualWidth, newHeight=actualHeight):
 	actualWidth = newWidth
 	actualHeight = newHeight
-	centerX = actualWidth / 2
-	centerY = actualHeight / 2
-	changedSize.emit(actualWidth, actualHeight)
+	centerX = actualWidth/2
+	centerY = actualHeight/2
+	topLeft = [position[0]-(board.tileHeight*actualWidth/2),position[1]-(board.tileHeight*actualHeight/2)]
+	botRight = [position[0]+(board.tileHeight*actualWidth/2),position[1]+(board.tileHeight*actualHeight/2)]
+#	changedSize.emit(actualWidth, actualHeight)
+#	changedSize.emit(self,topLeft,botRight)
 
 func onLeftClick():
-	firstMousePosition = Vector2(0,0) if grabbed else get_viewport().get_mouse_position()
-	if grabbed:
-		grabPosition = self.position
-	grabbed = !grabbed
+#	firstMousePosition = Vector2(0,0) if grabbed else get_viewport().get_mouse_position()
+#	if grabbed:
+#		grabPosition = self.position
+#	grabbed = !grabbed
+	pass
 	
 func onRightClick():
 	rotatePolyomino()
