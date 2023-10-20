@@ -10,6 +10,9 @@ var grabbed = false
 var grabPosition = self.position
 var board
 
+var tiles = []
+var bees = []
+
 # tileDictionary = All possible tiles within the polyomino.
 #   -1 = confirmed empty, 0 = empty, 1 = tile, 2 = tile+symbol
 var tileDictionary = {}
@@ -54,6 +57,14 @@ func makeValidPolyomino(width, height):
 			else:
 				tileDictionary[candidate] = -1
 			tileCandidates.erase(candidate)
+	var beeTileNumber = randi_range(filled*0.3,filled*0.45)
+	var shuffledKeys = []
+	for tile in tileDictionary.keys():
+		if tileDictionary[tile] == 1:
+			shuffledKeys.append(tile)
+	shuffledKeys.shuffle()
+	for tile in range(beeTileNumber):
+		tileDictionary[shuffledKeys[tile]] = 2
 	changeProportions(temporaryWidth+1, temporaryHeight+1)
 	return tileDictionary
 
@@ -64,6 +75,8 @@ func rotatePolyomino(times=1):
 			newTileDictionary[[tile[1],tile[0]]] = tileDictionary[tile]
 		tileDictionary = newTileDictionary
 		global_rotation_degrees += 90
+		for tile in tiles:
+			tile.global_rotation_degrees -= 90
 		changeProportions(actualHeight,actualWidth)
 
 func changeProportions(newWidth=actualWidth, newHeight=actualHeight):

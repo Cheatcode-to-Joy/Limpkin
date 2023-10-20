@@ -20,8 +20,10 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	# Regenerates all loose tiles and resets their position.
 	if Input.is_action_just_pressed("Reset"):
 		resetLoose()
+	
 	if Input.is_action_just_pressed("Grab or Let go"):
 		for polyomino in looseTiles:
 			polyomino.changeProportions()
@@ -70,14 +72,20 @@ func makePolyomino():
 	add_child(polyominoInstance)
 	polyominoInstance.init()
 	for space in polyominoInstance.tileDictionary.keys():
-		if polyominoInstance.tileDictionary[space] == 1:
+		if polyominoInstance.tileDictionary[space] >= 1:
 			var tileInstance = tile.instantiate()
 			tileInstance.position = Vector2(tileHeight*(.5+space[0]-polyominoInstance.centerX),
 											tileHeight*(.5+space[1]-polyominoInstance.centerY))
 			polyominoInstance.add_child(tileInstance)
+			polyominoInstance.tiles.append(tileInstance)
+			if polyominoInstance.tileDictionary[space] == 2:
+				var bbeeInstance = bbee.instantiate()
+				tileInstance.add_child(bbeeInstance)
+				polyominoInstance.bees.append(bbeeInstance)
 	return polyominoInstance
 
 func getActivePolyomino():
+	# Finds the first polyomino whose rectangle is underneath the cursor.
 	mousePosition = get_viewport().get_mouse_position()
 	for polyomino in looseTiles.keys():
 		if (mousePosition[0] < polyomino.botRight[0] and
@@ -87,6 +95,7 @@ func getActivePolyomino():
 				return polyomino
 
 func resetLoose():
+	grabbed = null
 	for polyomino in looseTiles.keys():
 		looseTiles.erase(polyomino)
 		remove_child(polyomino)
