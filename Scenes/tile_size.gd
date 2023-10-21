@@ -10,4 +10,3 @@ func _process(delta):
 
 func sizeChanged(width, height):
 	scale = Vector2(width/20.0, height/20.0)
-	print(scale)
