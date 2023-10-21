@@ -11,8 +11,7 @@ var heldPolyomino = null
 var tileHeight = 100
 var screenWidth
 var screenHeight
-var mousePosition = Vector2(0,0)
-var grabPosition = Vector2(0,0)
+var grabOffset = Vector2(0,0)
 
 var leftClickedOn = []
 var rightClickedOn = []
@@ -35,13 +34,14 @@ func _process(delta):
 			heldPolyomino = null
 		elif !leftClickedOn.size() == 0:
 			heldPolyomino = leftClickedOn[0]
+			grabOffset = heldPolyomino.position - get_viewport().get_mouse_position()
 	
 	if Input.is_action_just_pressed("Rotate"):
 		if !rightClickedOn.size() == 0:
 			rightClickedOn[0].rotatePolyomino()
 	
 	if !heldPolyomino == null:
-		heldPolyomino.position = get_viewport().get_mouse_position() + grabPosition - mousePosition
+		heldPolyomino.position = get_viewport().get_mouse_position() + grabOffset
 	
 	leftClickedOn = []
 	rightClickedOn = []
@@ -61,22 +61,6 @@ func makePolyomino():
 	newPolyomino.init(tileHeight)
 	polyominos[newPolyomino] = true
 	return newPolyomino
-
-func getActivePolyomino():
-	# Finds the first polyomino whose rectangle is underneath the cursor.
-	mousePosition = get_viewport().get_mouse_position()
-	for polyomino in polyominos.keys():
-		print(mousePosition)
-		print(polyomino.position[0] + tileHeight*polyomino.widthTiles/2)
-		print(polyomino.position[0] - tileHeight*polyomino.widthTiles/2)
-		print(polyomino.position[1] + tileHeight*polyomino.heightTiles/2)
-		print(polyomino.position[1] - tileHeight*polyomino.heightTiles/2)
-		print("")
-		if (mousePosition[0] < polyomino.position[0] + tileHeight*polyomino.widthTiles/2 and
-			mousePosition[0] > polyomino.position[0] - tileHeight*polyomino.widthTiles/2 and 
-			mousePosition[1] < polyomino.position[1] + tileHeight*polyomino.heightTiles/2 and
-			mousePosition[1] > polyomino.position[1] - tileHeight*polyomino.heightTiles/2):
-				return polyomino
 
 func resetLoose():
 	heldPolyomino = null
