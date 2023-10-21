@@ -1,88 +1,86 @@
 extends Node2D
 
-var actualWidth : float = 0
-var actualHeight : float = 0
-var centerX : float = actualWidth
-var centerY : float = actualHeight
-var topLeft = [0,0]
-var botRight = [0,0]
-var grabbed = false
-var grabPosition = self.position
-var board
+var tileScene
+var tileArea
+var tileHeight
+var tiles = {}
 
-var tiles = []
-var bees = []
+var sizeMultiplier : float = 7/3
 
-# tileDictionary = All possible tiles within the polyomino.
-#   -1 = confirmed empty, 0 = empty, 1 = tile, 2 = tile+symbol
-var tileDictionary = {}
+var widthTiles : float = 0
+var heightTiles : float = 0 
 
-# Called when the node enters the scene tree for the first time.
+signal changedSize(width, height)
+
 func _ready():
-	board = get_parent()
+	tileScene = preload("res://Scenes/tile_square.tscn")
+	tileArea = preload("res://Scenes/tile_area.tscn")
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+func init(givenTileHeight,width:float=4, height:float=4):
+	tileHeight = givenTileHeight
+	var newArea = tileArea.instantiate()
+	add_child(newArea)
+	var shape = newArea.get_child(0)
+	changedSize.connect(shape.sizeChanged)
+	shape.position -= Vector2(tileHeight/2,tileHeight/2)
+	makeValidPolyomino(tileHeight,width,height)
+	changedSize.emit(widthTiles*tileHeight,heightTiles*tileHeight)
+
 func _process(delta):
 	pass
 
-func init(width=4, height=4, inputMatrix=[], symbolMatrix=[]):
-	return makeValidPolyomino(width, height)
-
-func makeValidPolyomino(width, height):
+func makeValidPolyomino(tileHeight,maxWidth,maxHeight):
 	# Instancing dictionaries. 
-	# tileCandidates = Current tiles to consider for ascension.
-	var tileCandidates = {}
-	for row in range(height):
-		for column in range(width):
+	# tileDictionary = All possible tiles within the polyomino.
+	# 	-1 = confirmed empty, 0 = empty, 1 = tile, 2 = tile+symbol
+	# candidateCoordinates = Current tiles to consider for ascension.
+	var tileDictionary = {}
+	var candidateCoordinates = {}
+	for row in range(maxHeight):
+		for column in range(maxWidth):
 			tileDictionary[[row,column]] = 0
 	
 	# The starting point is top left for simplicity.
-	tileCandidates[[0,0]] = true
+	candidateCoordinates[[0,0]] = true
 	
-	var filled: float = 0
-	var temporaryWidth = 0
-	var temporaryHeight = 0
-	while !(tileCandidates.keys() == []):
-		for candidate in tileCandidates.keys():
-			if ((tileDictionary[candidate] == 0) and
-				(randf() >= 7*filled/(3*width*height))):
-				tileDictionary[candidate] = 1
-				temporaryWidth = max(temporaryWidth, candidate[0])
-				temporaryHeight = max(temporaryHeight, candidate[1])
-				filled += 1
-				if !(candidate[0] >= width-1):
-					tileCandidates[[candidate[0]+1,candidate[1]]] = true
-				if !(candidate[1] >= height-1):
-					tileCandidates[[candidate[0],candidate[1]+1]] = true
+	while !(candidateCoordinates.keys() == []):
+		for candidate in candidateCoordinates.keys():
+			if tileDictionary[candidate] == 0 and \
+			randf() >= sizeMultiplier*(tiles.keys().size()/(maxWidth*maxHeight)):
+				# Accounting for the new tile and writing down its coordinates.
+				var newTile = tileScene.instantiate()
+				tiles[newTile] = candidate
+				add_child(newTile)
+				
+				# Updating the size of the polyomino.
+				widthTiles = max(widthTiles, candidate[0]+1)
+				heightTiles = max(heightTiles, candidate[1]+1)
+				
+				# Adding tiles directly to the right or bottom to candidates.
+				if candidate[0] < maxWidth-1:
+					candidateCoordinates[[candidate[0]+1,candidate[1]]] = true
+				if candidate[1] < maxHeight-1:
+					candidateCoordinates[[candidate[0],candidate[1]+1]] = true
 			else:
+				# If failed, candidate no longer eligible.
 				tileDictionary[candidate] = -1
-			tileCandidates.erase(candidate)
-	var beeTileNumber = randi_range(filled*0.3,filled*0.45)
-	var shuffledKeys = []
-	for tile in tileDictionary.keys():
-		if tileDictionary[tile] == 1:
-			shuffledKeys.append(tile)
-	shuffledKeys.shuffle()
+			candidateCoordinates.erase(candidate)
+	
+	for newTile in tiles.keys():
+		newTile.position = Vector2(tileHeight*(tiles[newTile][0]-(widthTiles/2)),
+								   tileHeight*(tiles[newTile][1]-(heightTiles/2)))
+	
+	# Giving a random number of tiles a bee.
+	var randomTiles = tiles.keys()
+	randomTiles.shuffle()
+	var beeTileNumber = randi_range(randomTiles.size()*0.3,randomTiles.size()*0.45)
 	for tile in range(beeTileNumber):
-		tileDictionary[shuffledKeys[tile]] = 2
-	changeProportions(temporaryWidth+1, temporaryHeight+1)
-	return tileDictionary
+		randomTiles[tile].addBee()
 
 func rotatePolyomino(times=1):
 	for occurence in range(times):
-		var newTileDictionary = {}
-		for tile in tileDictionary.keys():
-			newTileDictionary[[tile[1],tile[0]]] = tileDictionary[tile]
-		tileDictionary = newTileDictionary
+		for tile in tiles.keys():
+			tiles[tile] = [tiles[tile][1],tiles[tile][0]]
 		global_rotation_degrees += 90
-		for tile in tiles:
+		for tile in tiles.keys():
 			tile.global_rotation_degrees -= 90
-		changeProportions(actualHeight,actualWidth)
-
-func changeProportions(newWidth=actualWidth, newHeight=actualHeight):
-	actualWidth = newWidth
-	actualHeight = newHeight
-	centerX = actualWidth/2
-	centerY = actualHeight/2
-	topLeft = [position[0]-(board.tileHeight*actualWidth/2),position[1]-(board.tileHeight*actualHeight/2)]
-	botRight = [position[0]+(board.tileHeight*actualWidth/2),position[1]+(board.tileHeight*actualHeight/2)]

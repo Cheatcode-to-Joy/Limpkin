@@ -1,102 +1,92 @@
 extends Node2D
 
+var tile
+var bee
+var polyomino
+
+var polyominos = {}
+
+var heldPolyomino = null
+
 var tileHeight = 100
-var tile = load("res://Scenes/tile_square.tscn")
-var bbee = load("res://Scenes/bumblesheep.tscn")
-var poly = load("res://Scenes/polyomino.tscn")
 var screenWidth
 var screenHeight
-var looseTiles = {}
-var grabbed = null
 var mousePosition = Vector2(0,0)
 var grabPosition = Vector2(0,0)
 
-# Called when the node enters the scene tree for the first time.
+var leftClickedOn = []
+var rightClickedOn = []
+
 func _ready():
+	tile = preload("res://Scenes/tile_square.tscn")
+	bee = preload("res://Scenes/bumblesheep.tscn")
+	polyomino = preload("res://Scenes/polyomino.tscn")
 	screenWidth = get_viewport().size.x
 	screenHeight = get_viewport().size.y
-	makeBoard()
 	makeSideboard()
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	# Regenerates all loose tiles and resets their position.
 	if Input.is_action_just_pressed("Reset"):
 		resetLoose()
 	
 	if Input.is_action_just_pressed("Grab or Let go"):
-		for polyomino in looseTiles:
-			polyomino.changeProportions()
-		if !grabbed == null:
-			grabbed = null
-		else:
-			mousePosition = get_viewport().get_mouse_position()
-			grabbed = getActivePolyomino()
-			if grabbed:
-				grabPosition = grabbed.position
+		if !heldPolyomino == null:
+			heldPolyomino = null
+		elif !leftClickedOn.size() == 0:
+			heldPolyomino = leftClickedOn[0]
+	
 	if Input.is_action_just_pressed("Rotate"):
-		for polyomino in looseTiles:
-			polyomino.changeProportions()
-		if getActivePolyomino():
-			grabPosition = getActivePolyomino().position
-			getActivePolyomino().rotatePolyomino()
-	if !grabbed == null:
-		grabbed.position = get_viewport().get_mouse_position() + grabPosition - mousePosition
+		if !rightClickedOn.size() == 0:
+			rightClickedOn[0].rotatePolyomino()
+	
+	if !heldPolyomino == null:
+		heldPolyomino.position = get_viewport().get_mouse_position() + grabPosition - mousePosition
+	
+	leftClickedOn = []
+	rightClickedOn = []
 
-func makeBoard():
-	var tiles = 8
-	for row in range(tiles):
-		for column in range(tiles):
-			var tileInstance = tile.instantiate()
-			var bbeeInstance = bbee.instantiate()
-			tileInstance.position = Vector2((screenWidth-tileHeight)-tileHeight*row,
-											(screenHeight-(tiles*tileHeight)/2)+tileHeight*column)
-			add_child(tileInstance)
-			tileInstance.add_child(bbeeInstance)
-
-func makeSideboard():
+func makeSideboard(tileNumber=3):
 	var offsetX = tileHeight
 	var offsetY = tileHeight
-	for polyomino in range(3):
-		var polyominoInstance = makePolyomino()
-		looseTiles[polyominoInstance] = [polyominoInstance.topLeft,polyominoInstance.botRight]
-		polyominoInstance.position += Vector2(tileHeight*polyominoInstance.centerX,
-											  tileHeight*polyominoInstance.centerY)
-		polyominoInstance.position += Vector2(offsetX, offsetY)
-		offsetY += (polyominoInstance.actualHeight+1)*tileHeight
-		polyominoInstance.grabPosition = polyominoInstance.position
-		polyominoInstance.changeProportions()
+	for polyomino in range(tileNumber):
+		var newPolyomino = makePolyomino()
+		newPolyomino.position += Vector2(tileHeight*newPolyomino.widthTiles/2 + offsetX,
+										 tileHeight*newPolyomino.heightTiles/2 + offsetY)
+		offsetY += (newPolyomino.heightTiles+1)*tileHeight
 
 func makePolyomino():
-	var polyominoInstance = poly.instantiate()
-	add_child(polyominoInstance)
-	polyominoInstance.init()
-	for space in polyominoInstance.tileDictionary.keys():
-		if polyominoInstance.tileDictionary[space] >= 1:
-			var tileInstance = tile.instantiate()
-			tileInstance.position = Vector2(tileHeight*(.5+space[0]-polyominoInstance.centerX),
-											tileHeight*(.5+space[1]-polyominoInstance.centerY))
-			polyominoInstance.add_child(tileInstance)
-			polyominoInstance.tiles.append(tileInstance)
-			if polyominoInstance.tileDictionary[space] == 2:
-				var bbeeInstance = bbee.instantiate()
-				tileInstance.add_child(bbeeInstance)
-				polyominoInstance.bees.append(bbeeInstance)
-	return polyominoInstance
+	var newPolyomino = polyomino.instantiate()
+	add_child(newPolyomino)
+	newPolyomino.init(tileHeight)
+	polyominos[newPolyomino] = true
+	return newPolyomino
 
 func getActivePolyomino():
 	# Finds the first polyomino whose rectangle is underneath the cursor.
 	mousePosition = get_viewport().get_mouse_position()
-	for polyomino in looseTiles.keys():
-		if (mousePosition[0] < polyomino.botRight[0] and
-			mousePosition[0] > polyomino.topLeft[0] and 
-			mousePosition[1] < polyomino.botRight[1] and
-			mousePosition[1] > polyomino.topLeft[1]):
+	for polyomino in polyominos.keys():
+		print(mousePosition)
+		print(polyomino.position[0] + tileHeight*polyomino.widthTiles/2)
+		print(polyomino.position[0] - tileHeight*polyomino.widthTiles/2)
+		print(polyomino.position[1] + tileHeight*polyomino.heightTiles/2)
+		print(polyomino.position[1] - tileHeight*polyomino.heightTiles/2)
+		print("")
+		if (mousePosition[0] < polyomino.position[0] + tileHeight*polyomino.widthTiles/2 and
+			mousePosition[0] > polyomino.position[0] - tileHeight*polyomino.widthTiles/2 and 
+			mousePosition[1] < polyomino.position[1] + tileHeight*polyomino.heightTiles/2 and
+			mousePosition[1] > polyomino.position[1] - tileHeight*polyomino.heightTiles/2):
 				return polyomino
 
 func resetLoose():
-	grabbed = null
-	for polyomino in looseTiles.keys():
-		looseTiles.erase(polyomino)
-		remove_child(polyomino)
+	heldPolyomino = null
+	for polyomino in polyominos.keys():
+		polyominos.erase(polyomino)
+		polyomino.queue_free()
 	makeSideboard()
+
+func onLeftClick(polyomino):
+	leftClickedOn.append(polyomino)
+
+func onRightClick(polyomino):
+	rightClickedOn.append(polyomino)
