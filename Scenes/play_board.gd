@@ -37,7 +37,9 @@ func _process(delta):
 			grabOffset = heldPolyomino.position - get_viewport().get_mouse_position()
 	
 	if Input.is_action_just_pressed("Rotate"):
-		if !rightClickedOn.size() == 0:
+		if !heldPolyomino == null:
+			heldPolyomino.rotatePolyomino()
+		elif !rightClickedOn.size() == 0:
 			rightClickedOn[0].rotatePolyomino()
 	
 	if !heldPolyomino == null:
