@@ -1,27 +1,18 @@
 extends Node2D
 
-var tile
-var bee
 var polyomino
-
 var polyominos = {}
 
 var heldPolyomino = null
 
 var tileHeight = 100
-var screenWidth
-var screenHeight
 var grabOffset = Vector2(0,0)
 
 var leftClickedOn = []
 var rightClickedOn = []
 
 func _ready():
-	tile = preload("res://Scenes/tile_square.tscn")
-	bee = preload("res://Scenes/bumblesheep.tscn")
-	polyomino = preload("res://Scenes/polyomino.tscn")
-	screenWidth = get_viewport().size.x
-	screenHeight = get_viewport().size.y
+	polyomino = preload("res://Scenes/Tiles/polyomino.tscn")
 	makeSideboard()
 
 func _process(delta):

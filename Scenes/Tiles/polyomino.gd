@@ -5,7 +5,7 @@ var tileArea
 var tileHeight
 var tiles = {}
 
-var sizeMultiplier : float = 7/3
+var sizeMultiplier : float = 7.0/3.0
 
 var widthTiles : float = 0
 var heightTiles : float = 0 
@@ -13,23 +13,23 @@ var heightTiles : float = 0
 signal changedSize(width, height)
 
 func _ready():
-	tileScene = preload("res://Scenes/tile_square.tscn")
-	tileArea = preload("res://Scenes/tile_area.tscn")
+	tileScene = preload("res://Scenes/Tiles/tile_square.tscn")
+	tileArea = preload("res://Scenes/Tiles/tile_area.tscn")
 
-func init(givenTileHeight,width:float=4, height:float=4):
+func init(givenTileHeight,width:float=4,height:float=4):
 	tileHeight = givenTileHeight
 	var newArea = tileArea.instantiate()
 	add_child(newArea)
 	var shape = newArea.get_child(0)
 	changedSize.connect(shape.sizeChanged)
 	shape.position -= Vector2(tileHeight/2,tileHeight/2)
-	makeValidPolyomino(tileHeight,width,height)
+	makeValidPolyomino(width,height)
 	changedSize.emit(widthTiles*tileHeight,heightTiles*tileHeight)
 
-func _process(delta):
+func _process(_delta):
 	pass
 
-func makeValidPolyomino(tileHeight,maxWidth,maxHeight):
+func makeValidPolyomino(maxWidth,maxHeight):
 	# Instancing dictionaries. 
 	# tileDictionary = All possible tiles within the polyomino.
 	# 	-1 = confirmed empty, 0 = empty, 1 = tile, 2 = tile+symbol
@@ -73,6 +73,7 @@ func makeValidPolyomino(tileHeight,maxWidth,maxHeight):
 	# Giving a random number of tiles a bee.
 	var randomTiles = tiles.keys()
 	randomTiles.shuffle()
+	@warning_ignore("narrowing_conversion")
 	var beeTileNumber = randi_range(randomTiles.size()*0.3,randomTiles.size()*0.45)
 	for tile in range(beeTileNumber):
 		randomTiles[tile].addBee()

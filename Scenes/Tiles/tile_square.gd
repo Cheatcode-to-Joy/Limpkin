@@ -8,8 +8,8 @@ var terrainType = null
 var terrainOptions = ["forest","lake","meadow","mountain"]
 
 func _ready():
-	beeScene = preload("res://Scenes/bumblesheep.tscn")
-	terrainScene = preload("res://Scenes/terrain.tscn")
+	beeScene = preload("res://Scenes/Tiles/bumblesheep.tscn")
+	terrainScene = preload("res://Scenes/Tiles/terrain.tscn")
 
 func init(addTerrain="meadow",addBee=false):
 	addTerrain(addTerrain)
