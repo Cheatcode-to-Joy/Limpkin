@@ -5,7 +5,7 @@ var polyomino
 func _ready():
 	polyomino = get_parent().get_parent()
 
-func _process(delta):
+func _process(_delta):
 	pass
 
 func sizeChanged(width, height):

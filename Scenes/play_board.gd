@@ -15,7 +15,7 @@ func _ready():
 	polyomino = preload("res://Scenes/Tiles/polyomino.tscn")
 	makeSideboard()
 
-func _process(delta):
+func _process(_delta):
 	# Regenerates all loose tiles and resets their position.
 	if Input.is_action_just_pressed("Reset"):
 		resetLoose()
@@ -42,7 +42,7 @@ func _process(delta):
 func makeSideboard(tileNumber=3):
 	var offsetX = tileHeight
 	var offsetY = tileHeight
-	for polyomino in range(tileNumber):
+	for number in range(tileNumber):
 		var newPolyomino = makePolyomino()
 		newPolyomino.position += Vector2(tileHeight*newPolyomino.widthTiles/2 + offsetX,
 										 tileHeight*newPolyomino.heightTiles/2 + offsetY)
@@ -57,13 +57,13 @@ func makePolyomino():
 
 func resetLoose():
 	heldPolyomino = null
-	for polyomino in polyominos.keys():
-		polyominos.erase(polyomino)
-		polyomino.queue_free()
+	for activePolyomino in polyominos.keys():
+		polyominos.erase(activePolyomino)
+		activePolyomino.queue_free()
 	makeSideboard()
 
-func onLeftClick(polyomino):
-	leftClickedOn.append(polyomino)
+func onLeftClick(clickedPolyomino):
+	leftClickedOn.append(clickedPolyomino)
 
-func onRightClick(polyomino):
-	rightClickedOn.append(polyomino)
+func onRightClick(clickedPolyomino):
+	rightClickedOn.append(clickedPolyomino)
