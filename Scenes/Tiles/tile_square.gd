@@ -11,20 +11,20 @@ func _ready():
 	beeScene = preload("res://Scenes/Tiles/bumblesheep.tscn")
 	terrainScene = preload("res://Scenes/Tiles/terrain.tscn")
 
-func init(addTerrain="meadow",addBee=false):
-	addTerrain(addTerrain)
-	if addBee:
+func init(addingTerrain="meadow",addingBee=false):
+	addTerrain(addingTerrain)
+	if addingBee:
 		addBee()
 
 func addBee():
 	bee = beeScene.instantiate()
 	add_child(bee)
 
-func addTerrain(addTerrain):
-	if addTerrain in terrainOptions:
-		terrainType = addTerrain
+func addTerrain(addingTerrain):
+	if addingTerrain in terrainOptions:
+		terrainType = addingTerrain
 	else:
 		terrainType = "meadow"
 
-func _process(delta):
+func _process(_delta):
 	pass
