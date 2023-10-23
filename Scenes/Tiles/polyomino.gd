@@ -22,7 +22,6 @@ func init(givenTileHeight,width:float=4,height:float=4):
 	add_child(newArea)
 	var shape = newArea.get_child(0)
 	changedSize.connect(shape.sizeChanged)
-	shape.position -= Vector2(tileHeight/2,tileHeight/2)
 	makeValidPolyomino(width,height)
 	changedSize.emit(widthTiles*tileHeight,heightTiles*tileHeight)
 
@@ -70,6 +69,7 @@ func makeValidPolyomino(maxWidth,maxHeight):
 		newTile.init()
 		newTile.position = Vector2(tileHeight*(tiles[newTile][0]-(widthTiles/2)),
 								   tileHeight*(tiles[newTile][1]-(heightTiles/2)))
+		newTile.position += Vector2(tileHeight/2,tileHeight/2)
 	
 	# Giving a random number of tiles a bee.
 	var randomTiles = tiles.keys()
