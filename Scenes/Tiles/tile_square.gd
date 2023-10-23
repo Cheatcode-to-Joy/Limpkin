@@ -5,13 +5,13 @@ var bee = null
 
 var terrainScene
 var terrainType = null
-var terrainOptions = ["forest","lake","meadow","mountain"]
+var terrainOptions = ["Forest","Lake","Meadow","Mountain"]
 
 func _ready():
 	beeScene = preload("res://Scenes/Tiles/bumblesheep.tscn")
 	terrainScene = preload("res://Scenes/Tiles/terrain.tscn")
 
-func init(addingTerrain="meadow",addingBee=false):
+func init(addingTerrain="Random",addingBee=false):
 	addTerrain(addingTerrain)
 	if addingBee:
 		addBee()
@@ -24,7 +24,9 @@ func addTerrain(addingTerrain):
 	if addingTerrain in terrainOptions:
 		terrainType = addingTerrain
 	else:
-		terrainType = "meadow"
+		terrainType = terrainOptions[randi() % (terrainOptions.size())]
+	get_child(0).texture = load("res://Assets/Textures/Terrain{terrain}.png"
+								.format({"terrain":terrainType}))
 
 func _process(_delta):
 	pass

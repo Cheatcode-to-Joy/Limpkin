@@ -67,6 +67,7 @@ func makeValidPolyomino(maxWidth,maxHeight):
 			candidateCoordinates.erase(candidate)
 	
 	for newTile in tiles.keys():
+		newTile.init()
 		newTile.position = Vector2(tileHeight*(tiles[newTile][0]-(widthTiles/2)),
 								   tileHeight*(tiles[newTile][1]-(heightTiles/2)))
 	
