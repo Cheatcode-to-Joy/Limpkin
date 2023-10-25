@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://ccekedrgslnep"]
+
+[ext_resource type="Script" path="res://Scenes/main_scene.gd" id="1_7d4nv"]
+[ext_resource type="Script" path="res://Scenes/play_space.gd" id="1_d0oe3"]
+
+[sub_resource type="GDScript" id="GDScript_jcm5p"]
+script/source = "extends Node2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+"
+
+[node name="MainScene" type="Node2D"]
+script = ExtResource("1_7d4nv")
+
+[node name="PlaySpace" type="Node2D" parent="."]
+script = ExtResource("1_d0oe3")
+
+[node name="PlayBoard" type="Node2D" parent="PlaySpace"]
+script = SubResource("GDScript_jcm5p")
