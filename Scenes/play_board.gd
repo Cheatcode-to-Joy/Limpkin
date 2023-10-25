@@ -10,8 +10,8 @@ var tiles = {}
 
 func _ready():
 	tileScene = preload("res://Scenes/Tiles/tile_square.tscn")
-	position += Vector2(1400,800)
 	tileHeight = get_parent().tileHeight
+	position += Vector2(get_viewport().size.x-tileHeight*(1+width/2),tileHeight*(1+height/2))
 
 func _process(_delta):
 	pass
