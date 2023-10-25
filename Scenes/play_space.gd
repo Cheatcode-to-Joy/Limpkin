@@ -13,8 +13,8 @@ var rightClickedOn = []
 
 func _ready():
 	polyomino = preload("res://Scenes/Tiles/polyomino.tscn")
-	makeSideboard()
 	get_child(0).makeBoard()
+	makeSideboard()
 
 func _process(_delta):
 	# Regenerates all loose tiles and resets their position.

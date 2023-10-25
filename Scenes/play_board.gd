@@ -1,10 +1,29 @@
 extends Node2D
 
+var tileScene
+var tileHeight
+
+var width = 8
+var height = 8
+
+var tiles = {}
+
 func _ready():
-	pass
+	tileScene = preload("res://Scenes/Tiles/tile_square.tscn")
+	position += Vector2(1400,800)
+	tileHeight = get_parent().tileHeight
 
 func _process(_delta):
 	pass
 
 func makeBoard():
-	pass
+	tiles = {}
+	for row in range(height):
+		for column in range(width):
+			var newTile = tileScene.instantiate()
+			newTile.init("Basic",false,true)
+			add_child(newTile)
+			newTile.position = Vector2(tileHeight*(.5+column-width/2),
+									   tileHeight*(.5+row-height/2))
+			newTile.modulate.a = 0.5
+			tiles[[row,column]] = newTile
