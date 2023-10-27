@@ -11,9 +11,13 @@ var grabOffset = Vector2(0,0)
 var leftClickedOn = []
 var rightClickedOn = []
 
+signal letGo(activePolyomino)
+
 func _ready():
 	polyomino = preload("res://Scenes/Tiles/polyomino.tscn")
-	get_child(0).makeBoard()
+	var board = get_child(0)
+	board.makeBoard()
+	letGo.connect(board.slotPolyomino)
 	makeSideboard()
 
 func _process(_delta):
@@ -23,6 +27,7 @@ func _process(_delta):
 	
 	if Input.is_action_just_pressed("Grab or Let go"):
 		if !heldPolyomino == null:
+			letGo.emit(heldPolyomino)
 			heldPolyomino = null
 		elif !leftClickedOn.size() == 0:
 			heldPolyomino = leftClickedOn[0]

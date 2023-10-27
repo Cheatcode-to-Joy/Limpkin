@@ -27,3 +27,6 @@ func makeBoard():
 									   tileHeight*(.5+row-height/2))
 			newTile.modulate.a = 0.5
 			tiles[[row,column]] = newTile
+
+func slotPolyomino(heldPolyomino):
+	pass
