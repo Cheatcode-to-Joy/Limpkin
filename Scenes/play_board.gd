@@ -29,4 +29,6 @@ func makeBoard():
 			tiles[[row,column]] = newTile
 
 func slotPolyomino(heldPolyomino):
-	pass
+	var polyominoCenter = heldPolyomino.position
+	var polyominoWidth = heldPolyomino.widthTiles
+	var polyominoHeight = heldPolyomino.heightTiles
