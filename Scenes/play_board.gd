@@ -26,9 +26,32 @@ func makeBoard():
 			newTile.position = Vector2(tileHeight*(.5+column-width/2),
 									   tileHeight*(.5+row-height/2))
 			newTile.modulate.a = 0.5
-			tiles[[row,column]] = newTile
+			tiles[newTile] = Vector2(tileHeight*row,tileHeight*column)
 
 func slotPolyomino(heldPolyomino):
 	var polyominoCenter = heldPolyomino.position
-	var polyominoWidth = heldPolyomino.widthTiles
-	var polyominoHeight = heldPolyomino.heightTiles
+	var polyominoTiles = heldPolyomino.tiles
+	
+	var possibleSlots = {}
+	var canSlot = true
+	
+	for polyominoTile in polyominoTiles:
+		var tileCenter = polyominoCenter + polyominoTiles[polyominoTile]
+		for boardTile in tiles.keys():
+			if boardTile.terrainType != "Basic":
+				continue
+			if (polyominoTile.global_position.x - boardTile.global_position.x <= abs(tileHeight/2) and 
+				polyominoTile.global_position.y - boardTile.global_position.y <= abs(tileHeight/2)):
+				print(polyominoTile.global_position)
+				print(boardTile.global_position)
+				possibleSlots[polyominoTile] = boardTile
+		if polyominoTile not in possibleSlots.keys():
+			canSlot = false
+			break
+	
+	if canSlot:
+		for slotTile in possibleSlots.keys():
+			possibleSlots[slotTile].init(slotTile.terrainType,true if slotTile.bee != null else false,false)
+			possibleSlots[slotTile].modulate.a = 1
+		get_parent().polyominos.erase(heldPolyomino)
+		heldPolyomino.queue_free()

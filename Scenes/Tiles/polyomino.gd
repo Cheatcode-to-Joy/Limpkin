@@ -48,7 +48,7 @@ func makeValidPolyomino(maxWidth,maxHeight):
 			randf() >= sizeMultiplier*(tiles.keys().size()/(maxWidth*maxHeight)):
 				# Accounting for the new tile and writing down its coordinates.
 				var newTile = tileScene.instantiate()
-				tiles[newTile] = candidate
+				tiles[newTile] = Vector2(candidate[0],candidate[1])
 				add_child(newTile)
 				
 				# Updating the size of the polyomino.
@@ -82,7 +82,7 @@ func makeValidPolyomino(maxWidth,maxHeight):
 func rotatePolyomino(times=1):
 	for occurence in range(times):
 		for tile in tiles.keys():
-			tiles[tile] = [tiles[tile][1],tiles[tile][0]]
+			tiles[tile] = Vector2(tiles[tile][1],tiles[tile][0])
 		global_rotation_degrees += 90
 		for tile in tiles.keys():
 			tile.global_rotation_degrees -= 90
