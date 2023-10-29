@@ -29,14 +29,12 @@ func makeBoard():
 			tiles[newTile] = Vector2(tileHeight*row,tileHeight*column)
 
 func slotPolyomino(heldPolyomino):
-	var polyominoCenter = heldPolyomino.position
 	var polyominoTiles = heldPolyomino.tiles
 	
 	var possibleSlots = {}
 	var canSlot = true
 	
 	for polyominoTile in polyominoTiles.keys():
-		var tileCenter = polyominoCenter + polyominoTiles[polyominoTile]
 		for boardTile in tiles.keys():
 			if boardTile.terrainType != "Basic":
 				continue
