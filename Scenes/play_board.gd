@@ -46,7 +46,6 @@ func slotPolyomino(heldPolyomino):
 		if polyominoTile not in possibleSlots.keys():
 			canSlot = false
 			break
-		print(possibleSlots)
 	
 	if canSlot:
 		for slotTile in possibleSlots.keys():
