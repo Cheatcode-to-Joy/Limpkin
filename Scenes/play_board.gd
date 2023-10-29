@@ -35,19 +35,18 @@ func slotPolyomino(heldPolyomino):
 	var possibleSlots = {}
 	var canSlot = true
 	
-	for polyominoTile in polyominoTiles:
+	for polyominoTile in polyominoTiles.keys():
 		var tileCenter = polyominoCenter + polyominoTiles[polyominoTile]
 		for boardTile in tiles.keys():
 			if boardTile.terrainType != "Basic":
 				continue
-			if (polyominoTile.global_position.x - boardTile.global_position.x <= abs(tileHeight/2) and 
-				polyominoTile.global_position.y - boardTile.global_position.y <= abs(tileHeight/2)):
-				print(polyominoTile.global_position)
-				print(boardTile.global_position)
+			if (abs(polyominoTile.global_position.x - boardTile.global_position.x) <= tileHeight/2 and 
+				abs(polyominoTile.global_position.y - boardTile.global_position.y) <= tileHeight/2):
 				possibleSlots[polyominoTile] = boardTile
 		if polyominoTile not in possibleSlots.keys():
 			canSlot = false
 			break
+		print(possibleSlots)
 	
 	if canSlot:
 		for slotTile in possibleSlots.keys():
