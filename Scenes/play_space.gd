@@ -1,5 +1,7 @@
 extends Node2D
 
+var buttonExit
+
 var polyomino
 var polyominos = {}
 var polyominoOrder = []
@@ -17,6 +19,13 @@ signal letGo(activePolyomino)
 func _ready():
 	polyomino = preload("res://Scenes/Tiles/polyomino.tscn")
 	var board = get_child(0)
+	
+	buttonExit = preload("res://Scenes/Buttons/button_exit.tscn")
+	var thisButtonExit = buttonExit.instantiate()
+	thisButtonExit.scale = Vector2(0.2,0.2)
+	thisButtonExit.position = Vector2(get_viewport().size.x-500,get_viewport().size.y-300)
+	add_child(thisButtonExit)
+	
 	board.makeBoard()
 	letGo.connect(board.slotPolyomino)
 	makeSideboard()

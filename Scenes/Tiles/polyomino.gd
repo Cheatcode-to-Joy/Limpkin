@@ -20,8 +20,7 @@ func init(givenTileHeight,width:float=4,height:float=4):
 	tileHeight = givenTileHeight
 	var newArea = tileArea.instantiate()
 	add_child(newArea)
-	var shape = newArea.get_child(0)
-	changedSize.connect(shape.sizeChanged)
+	changedSize.connect(newArea.sizeChanged)
 	makeValidPolyomino(width,height)
 	changedSize.emit(widthTiles*tileHeight,heightTiles*tileHeight)
 

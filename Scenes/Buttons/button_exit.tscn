@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://bkkased6fmcu7"]
+
+[ext_resource type="Script" path="res://Scenes/Buttons/button_exit.gd" id="1_fj531"]
+[ext_resource type="Texture2D" uid="uid://dcsn4oyxb17hr" path="res://Assets/Textures/ButtonExit.png" id="2_8a1go"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ch4ul"]
+
+[node name="ButtonExit" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_8a1go")
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("1_fj531")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+z_index = 1
+shape = SubResource("RectangleShape2D_ch4ul")

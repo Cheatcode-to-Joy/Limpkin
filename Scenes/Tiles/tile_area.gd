@@ -22,3 +22,6 @@ func _input_event(_viewport, event, _shape_idx):
 			leftClick.emit(polyomino)
 		elif event.button_index == MOUSE_BUTTON_RIGHT:
 			rightClick.emit(polyomino)
+
+func sizeChanged(width, height):
+	scale = Vector2(width/20.0, height/20.0)
