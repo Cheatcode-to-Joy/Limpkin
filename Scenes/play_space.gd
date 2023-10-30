@@ -1,6 +1,6 @@
 extends Node2D
 
-var buttonExit
+var hud
 
 var polyomino
 var polyominos = {}
@@ -20,11 +20,9 @@ func _ready():
 	polyomino = preload("res://Scenes/Tiles/polyomino.tscn")
 	var board = get_child(0)
 	
-	buttonExit = preload("res://Scenes/Buttons/button_exit.tscn")
-	var thisButtonExit = buttonExit.instantiate()
-	thisButtonExit.scale = Vector2(0.2,0.2)
-	thisButtonExit.position = Vector2(get_viewport().size.x-500,get_viewport().size.y-300)
-	add_child(thisButtonExit)
+	hud = preload("res://Scenes/HUD/play_hud.tscn")
+	var thisHud = hud.instantiate()
+	add_child(thisHud)
 	
 	board.makeBoard()
 	letGo.connect(board.slotPolyomino)
