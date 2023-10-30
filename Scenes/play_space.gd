@@ -2,6 +2,7 @@ extends Node2D
 
 var polyomino
 var polyominos = {}
+var polyominoOrder = []
 
 var heldPolyomino = null
 
@@ -33,6 +34,7 @@ func _process(_delta):
 			heldPolyomino = null
 		elif !leftClickedOn.size() == 0:
 			heldPolyomino = leftClickedOn[0]
+			changeZOrdering(heldPolyomino)
 			get_tree().call_group("{node}-polyominoTiles".format({"node":heldPolyomino}),
 								  "addZ", 20)
 			grabOffset = heldPolyomino.position - get_viewport().get_mouse_position()
@@ -63,11 +65,8 @@ func makePolyomino():
 	add_child(newPolyomino)
 	newPolyomino.init(tileHeight)
 	polyominos[newPolyomino] = true
-	var zIndex = 2
-	for anyPolyomino in polyominos.keys():
-		get_tree().call_group("{node}-polyominoTiles".format({"node":anyPolyomino}),
-							  "setZ", zIndex)
-		zIndex += 1
+	polyominoOrder.append(newPolyomino)
+	changeZOrdering(newPolyomino)
 	return newPolyomino
 
 func resetLoose():
@@ -76,6 +75,15 @@ func resetLoose():
 		polyominos.erase(activePolyomino)
 		activePolyomino.queue_free()
 	makeSideboard()
+
+func changeZOrdering(risingPolyomino):
+	polyominoOrder.erase(risingPolyomino)
+	polyominoOrder.append(risingPolyomino)
+	var zIndex = 2
+	for anyPolyomino in polyominoOrder:
+		get_tree().call_group("{node}-polyominoTiles".format({"node":anyPolyomino}),
+							  "setZ", zIndex)
+		zIndex += 1
 
 func onLeftClick(clickedPolyomino):
 	leftClickedOn.append(clickedPolyomino)
