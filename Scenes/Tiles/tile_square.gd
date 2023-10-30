@@ -33,3 +33,13 @@ func addTerrain(addingTerrain):
 
 func _process(_delta):
 	pass
+
+func addZ(Zamount):
+	get_child(0).z_index += Zamount
+	if (get_child_count() >= 2):
+		get_child(1).get_child(0).z_index += Zamount
+
+func setZ(Zamount):
+	get_child(0).z_index = Zamount
+	if (get_child_count() >= 2):
+		get_child(1).get_child(0).z_index = Zamount

@@ -49,6 +49,7 @@ func makeValidPolyomino(maxWidth,maxHeight):
 				# Accounting for the new tile and writing down its coordinates.
 				var newTile = tileScene.instantiate()
 				tiles[newTile] = Vector2(candidate[0],candidate[1])
+				newTile.add_to_group("{node}-polyominoTiles".format({"node":self}))
 				add_child(newTile)
 				
 				# Updating the size of the polyomino.
