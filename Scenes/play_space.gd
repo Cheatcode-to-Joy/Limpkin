@@ -36,14 +36,10 @@ func _process(_delta):
 	if Input.is_action_just_pressed("Grab or Let go"):
 		if !heldPolyomino == null:
 			letGo.emit(heldPolyomino)
-			get_tree().call_group("{node}-polyominoTiles".format({"node":heldPolyomino}),
-								  "addZ", -20)
 			heldPolyomino = null
 		elif !leftClickedOn.size() == 0:
 			heldPolyomino = leftClickedOn[0]
 			changeZOrdering(heldPolyomino)
-			get_tree().call_group("{node}-polyominoTiles".format({"node":heldPolyomino}),
-								  "addZ", 20)
 			grabOffset = heldPolyomino.position - get_viewport().get_mouse_position()
 	
 	if Input.is_action_just_pressed("Rotate"):
