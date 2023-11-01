@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://cfxwrgy1dciso"]
+
+[ext_resource type="Texture2D" uid="uid://dbl2b4by8vwue" path="res://Assets/Textures/ButtonStart.png" id="1_bm484"]
+[ext_resource type="Script" path="res://Scenes/HUD/button_start.gd" id="1_s1mnc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ma605"]
+
+[node name="ButtonStart" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_bm484")
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("1_s1mnc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_ma605")

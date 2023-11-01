@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://hlenk2prox06"]
+
+[ext_resource type="Script" path="res://Scenes/opening_menu.gd" id="1_uaqu0"]
+[ext_resource type="Script" path="res://Scenes/opening_hud.gd" id="2_v1emq"]
+
+[node name="OpeningMenu" type="Node2D"]
+script = ExtResource("1_uaqu0")
+
+[node name="OpeningHud" type="Node2D" parent="."]
+script = ExtResource("2_v1emq")
