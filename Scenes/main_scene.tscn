@@ -1,14 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://ccekedrgslnep"]
+[gd_scene load_steps=2 format=3 uid="uid://ccekedrgslnep"]
 
 [ext_resource type="Script" path="res://Scenes/main_scene.gd" id="1_7d4nv"]
-[ext_resource type="Script" path="res://Scenes/play_space.gd" id="1_d0oe3"]
-[ext_resource type="Script" path="res://Scenes/play_board.gd" id="2_vi8fg"]
 
 [node name="MainScene" type="Node2D"]
 script = ExtResource("1_7d4nv")
-
-[node name="PlaySpace" type="Node2D" parent="."]
-script = ExtResource("1_d0oe3")
-
-[node name="PlayBoard" type="Node2D" parent="PlaySpace"]
-script = ExtResource("2_vi8fg")

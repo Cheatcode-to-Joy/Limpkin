@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dg3mrcdvmbp0x"]
+
+[ext_resource type="Script" path="res://Scenes/play_space.gd" id="1_q5n4r"]
+[ext_resource type="Script" path="res://Scenes/play_board.gd" id="2_kqx62"]
+
+[node name="PlaySpace" type="Node2D"]
+script = ExtResource("1_q5n4r")
+
+[node name="PlayBoard" type="Node2D" parent="."]
+script = ExtResource("2_kqx62")
