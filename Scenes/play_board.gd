@@ -6,8 +6,8 @@ var gameHeight
 var tileScene
 var tileHeight
 
-var width = 8
-var height = 8
+var boardWidth = 8
+var boardHeight = 8
 
 var tiles = {}
 
@@ -16,20 +16,20 @@ func _ready():
 	
 	tileScene = preload("res://Scenes/Tiles/tile_square.tscn")
 	tileHeight = get_parent().tileHeight
-	position += Vector2(gameWidth-tileHeight*(1+width/2.0),tileHeight*(1+height/2.0))
+	position += Vector2(gameWidth-tileHeight*(1+boardWidth/2.0),tileHeight*(1+boardHeight/2.0))
 
 func _process(_delta):
 	pass
 
 func makeBoard():
 	tiles = {}
-	for row in range(height):
-		for column in range(width):
+	for row in range(boardHeight):
+		for column in range(boardWidth):
 			var newTile = tileScene.instantiate()
 			newTile.init("Basic",false,true)
 			add_child(newTile)
-			newTile.position = Vector2(tileHeight*(.5+column-width/2.0),
-									   tileHeight*(.5+row-height/2.0))
+			newTile.position = Vector2(tileHeight*(.5+column-boardWidth/2.0),
+									   tileHeight*(.5+row-boardHeight/2.0))
 			newTile.modulate.a = 0.5
 			tiles[newTile] = Vector2(tileHeight*row,tileHeight*column)
 
