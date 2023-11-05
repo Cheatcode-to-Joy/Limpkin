@@ -85,7 +85,7 @@ func changeZOrdering(risingPolyomino):
 	var zIndex = 2
 	for anyPolyomino in polyominoOrder:
 		get_tree().call_group("{node}-polyominoTiles".format({"node":anyPolyomino}),
-							  "setZ", zIndex)
+							  "setZ",zIndex)
 		zIndex += 1
 
 func onLeftClick(clickedPolyomino):

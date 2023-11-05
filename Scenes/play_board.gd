@@ -1,5 +1,8 @@
 extends Node2D
 
+var gameWidth
+var gameHeight
+
 var tileScene
 var tileHeight
 
@@ -9,9 +12,11 @@ var height = 8
 var tiles = {}
 
 func _ready():
+	updateGameSize(get_tree().root.get_child(0).gameWidth,get_tree().root.get_child(0).gameHeight)
+	
 	tileScene = preload("res://Scenes/Tiles/tile_square.tscn")
 	tileHeight = get_parent().tileHeight
-	position += Vector2(get_viewport().size.x-tileHeight*(1+width/2.0),tileHeight*(1+height/2.0))
+	position += Vector2(gameWidth-tileHeight*(1+width/2.0),tileHeight*(1+height/2.0))
 
 func _process(_delta):
 	pass
@@ -48,3 +53,7 @@ func slotPolyomino(slottingPolyomino):
 		possibleSlots[slotTile].modulate.a = 1
 	get_parent().polyominos.erase(slottingPolyomino)
 	slottingPolyomino.queue_free()
+
+func updateGameSize(width,height):
+	gameWidth = width
+	gameHeight = height
