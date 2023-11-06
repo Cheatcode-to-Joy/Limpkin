@@ -1,10 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://hlenk2prox06"]
+[gd_scene load_steps=4 format=3 uid="uid://hlenk2prox06"]
 
 [ext_resource type="Script" path="res://Scenes/opening_menu.gd" id="1_uaqu0"]
 [ext_resource type="Script" path="res://Scenes/opening_hud.gd" id="2_v1emq"]
+[ext_resource type="Texture2D" uid="uid://b5janji7ar371" path="res://Assets/Textures/MainMenuBox.png" id="3_tokcw"]
 
 [node name="OpeningMenu" type="Node2D"]
 script = ExtResource("1_uaqu0")
 
 [node name="OpeningHud" type="Node2D" parent="."]
 script = ExtResource("2_v1emq")
+
+[node name="MenuBox" type="Node2D" parent="OpeningHud"]
+
+[node name="Sprite2D" type="Sprite2D" parent="OpeningHud/MenuBox"]
+texture = ExtResource("3_tokcw")
