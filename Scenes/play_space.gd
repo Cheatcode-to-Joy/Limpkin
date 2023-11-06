@@ -1,7 +1,5 @@
 extends Node2D
 
-var hud
-
 var polyomino
 var polyominos = {}
 var polyominoOrder = []
@@ -19,10 +17,6 @@ signal letGo(activePolyomino)
 func _ready():
 	polyomino = preload("res://Scenes/Tiles/polyomino.tscn")
 	var board = get_child(0)
-	
-	hud = preload("res://Scenes/HUD/play_hud.tscn")
-	var thisHud = hud.instantiate()
-	add_child(thisHud)
 	
 	board.makeBoard()
 	letGo.connect(board.slotPolyomino)
