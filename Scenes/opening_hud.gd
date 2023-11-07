@@ -14,7 +14,7 @@ func _ready():
 	
 	menuBox = get_child(0)
 	menuBox.scale = Vector2(0.4,0.4)
-	menuBox.position = Vector2(gameWidth/2,gameHeight/2)
+	menuBox.position = Vector2(gameWidth/2,3*gameHeight/4)
 	
 	buttonExit = preload("res://Scenes/HUD/button_exit.tscn").instantiate()
 	menuBox.add_child(buttonExit)

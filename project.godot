@@ -44,4 +44,4 @@ Rotate={
 
 [rendering]
 
-environment/defaults/default_clear_color=Color(0.0470588, 0.0156863, 0.184314, 1)
+environment/defaults/default_clear_color=Color(0.972549, 0.8, 0.611765, 1)

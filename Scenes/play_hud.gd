@@ -12,12 +12,12 @@ func _ready():
 	buttonExit = preload("res://Scenes/HUD/button_exit.tscn").instantiate()
 	add_child(buttonExit)
 	buttonExit.scale = Vector2(0.2,0.2)
-	buttonExit.position = Vector2(gameWidth-500,gameHeight-300)
+	buttonExit.position = Vector2(gameWidth-200,gameHeight-100)
 	
 	buttonMenu = preload("res://Scenes/HUD/button_menu.tscn").instantiate()
 	add_child(buttonMenu)
 	buttonMenu.scale = Vector2(0.2,0.2)
-	buttonMenu.position = Vector2(gameWidth-500,gameHeight-400)
+	buttonMenu.position = Vector2(gameWidth-200,gameHeight-200)
 
 func _process(_delta):
 	pass
